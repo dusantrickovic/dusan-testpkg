@@ -25,6 +25,11 @@ jobs:
           node-version: 18.x
           registry-url: https://registry.npmjs.org
 
+      - name: Modify npm version
+        run: | 
+          npm install -g npm@8.19.3
+          npm -v
+
       - name: Install Dependencies
         run: | 
           cd swagger && npm ci --ignore-scripts

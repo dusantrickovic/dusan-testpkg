@@ -1,6 +1,6 @@
 {
   "name": "@dusantrickovic/dusan-testpkg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple test npm package",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/dusantrickovic/dusan-testpkg/issues"
   },
-  "homepage": "https://github.com/dusantrickovic/dusan-testpkg#readme"
+  "homepage": "https://github.com/dusantrickovic/dusan-testpkg#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
 }

@@ -1,44 +1,44 @@
-name: Publish
+# name: Publish
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-  workflow_dispatch:
+#   workflow_dispatch:
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-jobs:
-  publish:
-    name: Publish new NPM package
-    runs-on: self-hosted
+# jobs:
+#   publish:
+#     name: Publish new NPM package
+#     runs-on: self-hosted
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          registry-url: https://registry.npmjs.org
+#       - name: Setup Node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18.x
+#           registry-url: https://registry.npmjs.org
 
-      - name: Modify npm version
-        run: | 
-          npm install -g npm@8.19.3
-          npm -v
+#       - name: Modify npm version
+#         run: | 
+#           npm install -g npm@8.19.3
+#           npm -v
 
-      - name: Install Dependencies
-        run: | 
-          cd swagger && npm ci --ignore-scripts
-          node -v
-          npm -v
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+#       - name: Install Dependencies
+#         run: | 
+#           cd swagger && npm ci --ignore-scripts
+#           node -v
+#           npm -v
+#         env:
+#           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
-      - name: Publish
-        run: cd swagger && npm publish --verbose --access restricted
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+#       - name: Publish
+#         run: cd swagger && npm publish --verbose --access restricted
+#         env:
+#           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

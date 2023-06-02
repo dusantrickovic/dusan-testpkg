@@ -1,0 +1,98 @@
+name: dusan-pkg release
+
+on:
+    push:
+
+jobs:
+    linux-x64:
+        name: Create prebuild image for Linux x86_64
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            
+            - name: Node.js
+              uses: actions/setup-node@v3
+            
+            - run: npm ci --ignore-scripts --omit=dev --verbose
+
+            - run: npm run build
+
+            - uses: actions/upload-artifact@v3
+              with:
+                name: linux-x64
+                path: worker/out/linux-x64/Release/dusan-pkg
+                retention-days: 1
+    
+    windows-x64:
+        name: Create prebuild image for Windows x86_64
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Node.js
+              uses: actions/setup-node@v3
+
+            - run: npm ci --ignore-scripts --omit=dev --verbose
+            - run: npm run build
+
+            - uses: actions/upload-artifact@v3
+              with:
+                name: win32-x64
+                path: worker/out/win32-64/Release/dusan-pkg.exe
+                retention-days: 1
+        
+    pack:
+        name: Bundle the prebuild images and publish the package
+
+        needs: [linux-x64, windows-x64]
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            
+            - name: Download prebuild image for Linux x86_64
+              uses: actions/download-artifact@v3
+              with:
+                name: linux-x64
+                path: worker/out/linux-x64/Release
+            
+            - name: Download prebuild image for Windows x86_64
+              uses: actions/download-artifact@v3
+              with:
+                name: win32-64
+                path: worker/out/win32-x64/Release
+            
+            - run: chmod +x worker/out/*/Release/dusan-pkg*
+            
+            - name: Install Node.js dependencies
+              uses: actions/setup-node@v3
+            - run: npm ci
+
+            - name: Node.js for GitHub Package Registry
+              uses: actions/setup-node@v3
+              with:
+                registry-url: 'https://npm.pkg.github.com'
+            
+            - name: Publish for GitHub Packages Registry
+              run: npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Node.js for npmjs
+              uses: actions/setup-node@v3
+              with:
+                registry-url: 'https://registry.npmjs.org'
+            
+            - name: Publish to npmjs
+              run: npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+
+

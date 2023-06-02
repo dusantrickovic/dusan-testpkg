@@ -15,7 +15,7 @@ jobs:
             - name: Node.js
               uses: actions/setup-node@v3
             
-            - run: npm ci --ignore-scripts --omit=dev --verbose
+            - run: npm ci --ignore-scripts --verbose
 
             - run: npm run build
 
@@ -36,7 +36,7 @@ jobs:
             - name: Node.js
               uses: actions/setup-node@v3
 
-            - run: npm ci --ignore-scripts --omit=dev --verbose
+            - run: npm ci --ignore-scripts --verbose
             - run: npm run build
 
             - uses: actions/upload-artifact@v3

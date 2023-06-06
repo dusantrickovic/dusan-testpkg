@@ -1,6 +1,7 @@
 name: dusan-pkg release
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   push-package:

@@ -1,6 +1,6 @@
 name: dusan-pkg release
 on:
-  pull_request:
+  push:
 
 jobs:
   push-package:

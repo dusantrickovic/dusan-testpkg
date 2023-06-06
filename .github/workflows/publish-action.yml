@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           registry-url: 'https://npm.pkg.github.com'
+          token: ${{ secrets.GITHUB_TOKEN }}
             
       - name: Publish for GitHub Packages Registry
         run: npm publish

@@ -28,7 +28,7 @@ jobs:
       - name: Publish for GitHub Packages Registry
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
       
       - name: Node.js for npmjs
         uses: actions/setup-node@v3

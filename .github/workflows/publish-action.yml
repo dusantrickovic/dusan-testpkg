@@ -24,6 +24,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Set npm configuration
+        run: |
+          echo "//npm.pkh.github.com/:_authToken=\${{ secrets.PERSONAL_TOKEN }}" > .npmrc
             
       - name: Publish for GitHub Packages Registry
         run: npm publish
@@ -34,6 +38,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           registry-url: 'https://registry.npmjs.org'
+      
+      - name: Set npm configuration
+        run: |
+            echo "//registry.npmjs.org/:_authToken=\${{ secrets.NPM_TOKEN }}" > .npmrc
                       
       - name: Publish to npmjs
         run: npm publish
